@@ -11,6 +11,7 @@ public class Ball : MonoBehaviour {
 		paddle = GameObject.FindObjectOfType<Paddle>();
 		paddleToBallVector = this.transform.position - paddle.transform.position;
 		print (paddleToBallVector.y);
+
 	}
 	
 	// Update is called once per frame
@@ -26,6 +27,14 @@ public class Ball : MonoBehaviour {
 				this.rigidbody2D.velocity = new Vector2 (2f, 10f);
 
 			}
+		}
+	}
+	void OnCollisionEnter2D(Collision2D Collision){
+		Vector2 tweak = new Vector2 (Random.Range (0f, 0.2f), Random.Range (0f, 0.2f));
+	
+		if (hasStarted) {
+			audio.Play ();
+			rigidbody2D.velocity += tweak;
 		}
 	}
 }
