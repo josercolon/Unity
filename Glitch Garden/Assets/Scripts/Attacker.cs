@@ -7,10 +7,17 @@ public class Attacker : MonoBehaviour {
 
 	private float currentSpeed;
 	private GameObject currentTarget;
+	private Animator animator;
 
-	// Update is called once per frame
+	void Start () {
+		animator = GetComponent<Animator>();
+	}
+	
 	void Update () {
 		transform.Translate (Vector3.left * currentSpeed * Time.deltaTime);
+		if(!currentTarget){
+			animator.SetBool ("isAttacking", false);
+		}
 	}
 
 	void OnTriggerEnter2D (){
@@ -22,7 +29,12 @@ public class Attacker : MonoBehaviour {
 	}
 
 	public void StrikeCurrentTarget (float damage){
-		Debug.Log (name + "caused damage:" + damage);
+		if (currentTarget){
+			Health health = currentTarget.GetComponent<Health>();
+			if (health){
+				health.DealDamage (damage);
+			}
+		}
 	}
 	
 	public void Attack(GameObject obj){
